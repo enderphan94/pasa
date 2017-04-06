@@ -29,33 +29,33 @@ def main():
 	array_ban = []
 	count = 0
 	total = 0
-	for pay in dic.readlines():
-		total = total + 1
-	dic.seek(0)
-	bar = progressbar.ProgressBar(maxval=total, \
-    		widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-	bar.start()
-	for count in xrange(total):
-		for line in dic.readlines():
-			count = count + 1
-			bar.update(count)
-			sleep(0.1)
-			try:
-				word = line.strip("\n")
-				tgturl = url + word
-				req = requests.get(tgturl, timeout=10)	
-				if req.status_code == 200:
-					if "Index of" in req.content:
-						array_dir.append(word)
-					else:
-						array_file.append(word)
-				elif req.status_code == 403:
-					array_ban.append(word)
-				#elif req.status_code == 404:
-				#	print "[-] whoops! The server has not found anything matching the URI given"
-			except:
-				print "[-] Nothing found"	
-	bar.finish()
+	#for pay in dic.readlines():
+	#	total = total + 1
+	#dic.seek(0)
+	#bar = progressbar.ProgressBar(maxval=total, \
+    	#		widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+	#bar.start()
+	#for count in xrange(total):
+	for line in dic.readlines():
+		#count = count + 1
+		#bar.update(count)
+		#sleep(0.1)
+		try:
+			word = line.strip("\n")
+			tgturl = url + word
+			req = requests.get(tgturl, timeout=10)	
+			if req.status_code == 200:
+				if "Index of" in req.content:
+					array_dir.append(word)
+				else:
+					array_file.append(word)
+			elif req.status_code == 403:
+				array_ban.append(word)
+			#elif req.status_code == 404:
+			#	print "[-] whoops! The server has not found anything matching the URI given"
+		except:
+			print "[-] Nothing found"	
+	#bar.finish()
 	for sub_dir in array_dir:	
 		print "[+] Folder has been found: "+url+sub_dir
 	for sub_file in array_file:
